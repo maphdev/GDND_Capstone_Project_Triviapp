@@ -30,7 +30,11 @@ dependencies {
     implementation 'com.android.support:support-media-compat:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
     // firebase
-    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-database:16.0.1'
+    // app dependencies
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
 }
 
 // firebase
