@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Activity generalities -->
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="element_more_little_margin">2dp</dimen>
+    <dimen name="element_little_margin">4dp</dimen>
+    <dimen name="element_normal_margin">8dp</dimen>
+    <dimen name="element_big_margin">16dp</dimen>
+
+    <!-- Logo generalities -->
+    <dimen name="logo_size">100dp</dimen>
+    
+    <!-- CardView generalities -->
+    <dimen name="cardView_elevation">4dp</dimen>
+</resources>
