@@ -37,10 +37,10 @@
                     android:layout_height="wrap_content">
 
                     <android.support.design.widget.TextInputEditText
-                        android:id="@+id/input_sign_up_username"
+                        android:id="@+id/input_sign_up_email"
                         style="@style/TextInputEditText"
-                        android:hint="@string/username"
-                        android:inputType="text" />
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -67,16 +67,8 @@
 
             <Button
                 android:id="@+id/sign_up_btn"
-                android:text="@string/sign_up"
-                style="@style/Button_App"
-                android:layout_marginEnd="@dimen/element_normal_margin"
-                android:layout_weight="1"/>
-
-            <Button
-                android:id="@+id/sign_in_btn"
                 android:text="@string/sign_in"
                 style="@style/Button_App"
-                android:layout_marginStart="@dimen/element_normal_margin"
                 android:layout_weight="1"/>
 
         </LinearLayout>

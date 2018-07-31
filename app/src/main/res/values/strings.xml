@@ -7,4 +7,9 @@
     <string name="email">Email</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
+    <string name="exception_empty_email">No email inputed!</string>
+    <string name="exception_empty_password">No password inputed!</string>
+    <string name="exception_weak_password">Password too weak!</string>
+    <string name="exception_malformed_email">Invalid email address!</string>
+    <string name="exception_user_already_exists">User already exists!</string>
 </resources>
