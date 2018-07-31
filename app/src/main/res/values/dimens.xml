@@ -10,10 +10,12 @@
 
     <!-- Logo generalities -->
     <dimen name="logo_size">100dp</dimen>
-    
+    <dimen name="logo_size_toolbar">30dp</dimen>
+
     <!-- CardView generalities -->
     <dimen name="cardView_elevation">4dp</dimen>
 
     <!-- AppBar generalities -->
+    <dimen name="toolbar_to_be_collapsed_size">112dp</dimen>
     <dimen name="appBar_elevation">4dp</dimen>
 </resources>

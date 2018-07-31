@@ -14,4 +14,6 @@
     <string name="exception_user_already_exists">User already exists!</string>
     <string name="exception_invalid_email">Invalid email address!</string>
     <string name="exception_invalid_password">Invalid password!</string>
+    <string name="ON_SAVE_INSTANCE_EMAIL">on_save_instance_email</string>
+    <string name="ON_SAVE_INSTANCE_PASSWORD">on_save_instance_password</string>
 </resources>
