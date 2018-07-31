@@ -1,5 +1,6 @@
 package com.capstone.maphdev.triviapp.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import com.capstone.maphdev.triviapp.R;
+import com.capstone.maphdev.triviapp.utils.DesignUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -43,12 +45,12 @@ public class SignUpActivity extends AppCompatActivity {
         String password = inputPassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)){
-            showSnackBar(view, getString(R.string.exception_empty_email));
+            DesignUtils.showSnackBar(view, getString(R.string.exception_empty_email), getApplicationContext());
             return;
         }
 
         if (TextUtils.isEmpty(password)){
-            showSnackBar(view, getString(R.string.exception_empty_password));
+            DesignUtils.showSnackBar(view, getString(R.string.exception_empty_password), getApplicationContext());
             return;
         }
 
@@ -65,19 +67,20 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                             // if the password is too weak
                             catch (FirebaseAuthWeakPasswordException weakPasswordException){
-                                showSnackBar(view, getString(R.string.exception_weak_password));
+                                DesignUtils.showSnackBar(view, getString(R.string.exception_weak_password), getApplicationContext());
                                 return;
                             }
                             // if the email is malformed
                             catch (FirebaseAuthInvalidCredentialsException invalidEmail){
-                                showSnackBar(view, getString(R.string.exception_malformed_email));
+                                DesignUtils.showSnackBar(view, getString(R.string.exception_malformed_email), getApplicationContext());
                                 return;
                             }
                             // if the user already exists
                             catch (FirebaseAuthUserCollisionException alreadyExistException){
-                                showSnackBar(view, getString(R.string.exception_user_already_exists));
+                                DesignUtils.showSnackBar(view, getString(R.string.exception_user_already_exists), getApplicationContext());
                                 return;
                             }
+                            // other
                              catch (Exception e){
                                 e.printStackTrace();
                             }
@@ -91,11 +94,4 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    private void showSnackBar(View view, String text){
-        Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_SHORT);
-        snackbar.getView().setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        snackbar.show();
-    }
-
 }

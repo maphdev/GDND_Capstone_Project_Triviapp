@@ -10,6 +10,8 @@
     <string name="exception_empty_email">No email inputed!</string>
     <string name="exception_empty_password">No password inputed!</string>
     <string name="exception_weak_password">Password too weak!</string>
-    <string name="exception_malformed_email">Invalid email address!</string>
+    <string name="exception_malformed_email">Malformed email address!</string>
     <string name="exception_user_already_exists">User already exists!</string>
+    <string name="exception_invalid_email">Invalid email address!</string>
+    <string name="exception_invalid_password">Invalid password!</string>
 </resources>
