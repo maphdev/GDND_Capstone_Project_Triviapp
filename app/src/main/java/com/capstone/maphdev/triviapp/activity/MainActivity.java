@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.categories_list, categoriesListFragment)
+                .replace(R.id.categories_list, categoriesListFragment)
                 .commit();
     }
 
