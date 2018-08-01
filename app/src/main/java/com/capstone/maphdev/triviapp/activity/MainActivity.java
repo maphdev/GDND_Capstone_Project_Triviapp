@@ -1,23 +1,17 @@
 package com.capstone.maphdev.triviapp.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.capstone.maphdev.triviapp.R;
-import com.capstone.maphdev.triviapp.model.Question;
-import com.capstone.maphdev.triviapp.utils.JsonUtils;
-import com.capstone.maphdev.triviapp.utils.NetworkUtils;
-import com.capstone.maphdev.triviapp.utils.StringUtils;
+import com.capstone.maphdev.triviapp.fragment.CategoriesListFragment;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
-import java.util.List;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,24 +24,24 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
+        // if the user is not logged in anymore, then redirection to the Welcome Activity
         if (auth.getCurrentUser() == null){
             finish();
             startActivity(new Intent(this, WelcomeActivity.class));
         }
 
-        //FirebaseUser user = auth.getCurrentUser();
-        //TextView textView = (TextView) findViewById(R.id.myText);
-        //textView.setText("Hello " + user.getEmail());
+        // set fragment
+        CategoriesListFragment categoriesListFragment = new CategoriesListFragment();
 
-        Question question = NetworkUtils.getRandomQuestion();
-        Log.v("azerty", question.toString());
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.categories_list, categoriesListFragment)
+                .commit();
     }
-
-
 
     public void signOut(View view){
         auth.signOut();
         finish();
         startActivity(new Intent(this, WelcomeActivity.class));
     }
-}
+ }

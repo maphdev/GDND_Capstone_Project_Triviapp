@@ -18,4 +18,13 @@
     <!-- AppBar generalities -->
     <dimen name="toolbar_to_be_collapsed_size">112dp</dimen>
     <dimen name="appBar_elevation">4dp</dimen>
+
+    <!-- Categories Activity -->
+    <dimen name="card_margins">4dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="card_corner_radius">2dp</dimen>
+    <dimen name="card_image_size">150dp</dimen>
+    <dimen name="card_text_margins">20dp</dimen>
+    <dimen name="list_side_margin">4dp</dimen>
+
 </resources>
