@@ -1,6 +1,5 @@
 package com.capstone.maphdev.triviapp.utils;
 
-
 import android.util.Base64;
 
 public class StringUtils {

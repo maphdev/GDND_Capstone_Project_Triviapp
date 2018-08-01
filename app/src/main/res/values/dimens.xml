@@ -19,6 +19,7 @@
     <dimen name="toolbar_to_be_collapsed_size">112dp</dimen>
     <dimen name="appBar_elevation">4dp</dimen>
 
+
     <!-- Categories Activity -->
     <dimen name="card_margins">4dp</dimen>
     <dimen name="card_elevation">4dp</dimen>

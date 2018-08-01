@@ -7,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.capstone.maphdev.triviapp.R;
 import com.capstone.maphdev.triviapp.model.Question;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

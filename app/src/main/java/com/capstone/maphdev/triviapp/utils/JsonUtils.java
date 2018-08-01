@@ -14,6 +14,7 @@ public class JsonUtils {
 
     private static final String RESULTS = "results";
 
+    // parse the json get from the API
     public static List<Question> parseJson(String json){
 
         // retrieve the results array

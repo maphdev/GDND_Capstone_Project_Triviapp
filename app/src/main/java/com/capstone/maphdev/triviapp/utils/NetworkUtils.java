@@ -1,15 +1,11 @@
 package com.capstone.maphdev.triviapp.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
-
 import com.capstone.maphdev.triviapp.model.Question;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;

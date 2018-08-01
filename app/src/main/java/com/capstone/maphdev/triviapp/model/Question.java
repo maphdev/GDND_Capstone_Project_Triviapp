@@ -19,6 +19,7 @@ public class Question implements Parcelable{
     private String correct_answer;
     private List<String> incorrect_answers;
 
+    // categories' name
     public static List<String> categoriesName = Arrays.asList(
             "Random",
             "General Knowledge",
@@ -119,6 +120,7 @@ public class Question implements Parcelable{
         return str.toString();
     }
 
+    // Parcelable
     public Question(Parcel in){
         this.category = in.readString();
         this.type = in.readString();

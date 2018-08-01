@@ -19,8 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SignUpActivity" />
-        <activity android:name=".activity.SignInActivity" />
+        <activity android:name=".activity.SignUpActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".activity.SignInActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.QuizActivity"></activity>
     </application>

@@ -2,7 +2,6 @@ package com.capstone.maphdev.triviapp.fragment;
 
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.capstone.maphdev.triviapp.R;
 import com.capstone.maphdev.triviapp.model.Question;
 import com.capstone.maphdev.triviapp.model.UserData;
@@ -23,13 +21,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -47,29 +45,40 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     private static Question q;
     private int nbTry = 0;
 
+    // Firebase
     FirebaseAuth auth;
     DatabaseReference thisUserRef;
 
-    public QuizFragment() {
-        // Required empty public constructor
-    }
+    // Required empty public constructor
+    public QuizFragment() {}
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // check if there is an internet connection
+        if (!NetworkUtils.isNetworkAvailable(getContext())){
+            return inflater.inflate(R.layout.no_internet_connection, container, false);
+        }
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_quiz, container, false);
 
+        // bind the views
         ButterKnife.bind(this, rootView);
 
+        // initialize a reference to the user's data in firebase
+        thisUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        // setOnClickListeners
         answer1Btn.setOnClickListener(this);
         answer2Btn.setOnClickListener(this);
         answer3Btn.setOnClickListener(this);
         answer4Btn.setOnClickListener(this);
         nextQuestionBtn.setOnClickListener(this);
 
-
+        // Load a new question
         int idCategory = getActivity().getIntent().getIntExtra(CategoriesListFragment.ID_CATEGORY, 9);
 
         q = null;
@@ -79,12 +88,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             q = NetworkUtils.getCategoryQuestion(idCategory);
         }
 
-        thisUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
+        // we need to shuffle the answers so the correct answer is not always displayed as the same button
         List<String> answers;
         answers = Arrays.asList(q.getCorrect_answer(), q.getIncorrect_answers().get(0), q.getIncorrect_answers().get(1), q.getIncorrect_answers().get(2));
         Collections.shuffle(answers);
 
+        // set button's text
         question.setText(q.getQuestion());
         answer1Btn.setText(answers.get(0));
         answer2Btn.setText(answers.get(1));
@@ -94,6 +103,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
+    // handle a click on an answer
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -115,6 +125,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    // display the result, depending on the clicked button, and update the firebase database
     private void giveResult(Button btnClicked){
 
         incrementNbQuestionAnswered();
@@ -157,7 +168,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.d(TAG, "Error trying to get classified ad for update " +
+                        ""+databaseError);
             }
         });
     }
@@ -173,7 +185,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.d(TAG, "Error trying to get classified ad for update " +
+                        ""+databaseError);
             }
         });
     }
@@ -188,7 +201,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.d(TAG, "Error trying to get classified ad for update " +
+                        ""+databaseError);
             }
         });
     }

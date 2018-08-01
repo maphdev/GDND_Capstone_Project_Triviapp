@@ -4,26 +4,17 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
 import com.capstone.maphdev.triviapp.R;
-import com.capstone.maphdev.triviapp.fragment.CategoriesListFragment;
 import com.capstone.maphdev.triviapp.fragment.QuizFragment;
-import com.capstone.maphdev.triviapp.model.Question;
-import com.capstone.maphdev.triviapp.utils.NetworkUtils;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class QuizActivity extends AppCompatActivity implements QuizFragment.OnNextQuestionListener {
+
+    @BindView(R.id.quiz_activity_toolbar) Toolbar toolbar;
 
     private FirebaseAuth auth;
     FragmentManager fragmentManager;
@@ -33,12 +24,28 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnNe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        // Firebase auth
         auth = FirebaseAuth.getInstance();
 
         // if the user is not logged in anymore, then redirection to the Welcome Activity
         if (auth.getCurrentUser() == null){
             finish();
             startActivity(new Intent(this, WelcomeActivity.class));
+        }
+
+        // toolbar
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setTitle(R.string.back_to_categories);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
         }
 
         // set fragment
@@ -52,7 +59,6 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnNe
 
     @Override
     public void onNextQuestionClick() {
-        Log.v("TRY", "inside activity onclick");
         QuizFragment quizFragment = new QuizFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.quiz_container, quizFragment)
