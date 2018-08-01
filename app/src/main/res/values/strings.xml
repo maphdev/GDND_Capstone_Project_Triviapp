@@ -17,6 +17,6 @@
     <string name="ON_SAVE_INSTANCE_EMAIL">on_save_instance_email</string>
     <string name="ON_SAVE_INSTANCE_PASSWORD">on_save_instance_password</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="next_question">Next Question</string>
+
 </resources>

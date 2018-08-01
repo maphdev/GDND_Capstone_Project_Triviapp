@@ -28,6 +28,8 @@ public class NetworkUtils {
     // ENDPOINT
     private final static String AMOUNT_QUERY = "amount";
     private final static String CATEGORY_QUERY = "category";
+    private final static String TYPE_QUERY = "type";
+    private final static String TYPE_PARAM = "multiple";
     private final static String ENCODING_QUERY = "encode";
     private final static String ENCODING_PARAM = "base64";
 
@@ -38,6 +40,7 @@ public class NetworkUtils {
     public static URL buildUrlGeneralQuestions(int i) {
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(AMOUNT_QUERY, Integer.toString(i))
+                .appendQueryParameter(TYPE_QUERY, TYPE_PARAM)
                 .appendQueryParameter(ENCODING_QUERY, ENCODING_PARAM)
                 .build();
 
@@ -49,6 +52,7 @@ public class NetworkUtils {
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(AMOUNT_QUERY, Integer.toString(amount))
                 .appendQueryParameter(CATEGORY_QUERY, Integer.toString(category))
+                .appendQueryParameter(TYPE_QUERY, TYPE_PARAM)
                 .appendQueryParameter(ENCODING_QUERY, ENCODING_PARAM)
                 .build();
 

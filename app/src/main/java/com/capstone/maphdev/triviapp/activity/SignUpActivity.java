@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import com.capstone.maphdev.triviapp.R;
+import com.capstone.maphdev.triviapp.model.UserData;
 import com.capstone.maphdev.triviapp.utils.DesignUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,6 +21,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -92,6 +97,8 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         } else {
                             if (auth.getCurrentUser() != null){
+                                createUserData();
+
                                 finish();
 
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -106,5 +113,12 @@ public class SignUpActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState, outPersistentState);
         outState.putString(getString(R.string.ON_SAVE_INSTANCE_EMAIL), inputEmail.getText().toString());
         outState.putString(getString(R.string.ON_SAVE_INSTANCE_PASSWORD), inputPassword.getText().toString());
+    }
+
+    public void createUserData(){
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference usersRef = rootRef.child("users");
+        DatabaseReference userRef = usersRef.child(auth.getCurrentUser().getUid());
+        userRef.setValue(new UserData());
     }
 }

@@ -30,8 +30,8 @@ public class Question implements Parcelable{
             "Video Games",
             "Board Games",
             "Science & Nature",
-            "Science: Computers",
-            "Science: Mathematics",
+            "Computers",
+            "Mathematics",
             "Mythology",
             "Sports",
             "Geography",
@@ -42,7 +42,7 @@ public class Question implements Parcelable{
             "Animals",
             "Vehicles",
             "Comics",
-            "Science: Gadgets",
+            "Gadgets",
             "Japanese Anime & Manga",
             "Cartoon & Animations"
     );

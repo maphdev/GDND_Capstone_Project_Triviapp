@@ -19,6 +19,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     private static final int DIFFERENCE_POSITION_VS_ID = 9;
     private static final int DIFFERENCE_POSITION_VS_RANDOM = 1;
 
+    final private ListItemClickListener listItemClickListener;
+
+    public CategoriesAdapter(ListItemClickListener listItemClickListener){
+        this.listItemClickListener = listItemClickListener;
+    }
+
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,7 +45,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         return Question.categoriesName.size();
     }
 
-    public class CategoryViewHolder extends RecyclerView.ViewHolder {
+    public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.categories_adapter_item_imageView) ImageView itemImageView;
         @BindView(R.id.categories_adapter_item_textView)  TextView itemTextView;
@@ -47,6 +53,22 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         public CategoryViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            if (clickedPosition == 0){
+                listItemClickListener.onListItemClicked(0);
+            } else {
+                int idCategory = clickedPosition + DIFFERENCE_POSITION_VS_ID - DIFFERENCE_POSITION_VS_RANDOM;
+                listItemClickListener.onListItemClicked(idCategory);
+            }
+        }
+    }
+
+    public interface ListItemClickListener{
+        void onListItemClicked(int idCategory);
     }
 }

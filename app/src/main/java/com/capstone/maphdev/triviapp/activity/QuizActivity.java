@@ -4,24 +4,34 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.capstone.maphdev.triviapp.R;
 import com.capstone.maphdev.triviapp.fragment.CategoriesListFragment;
+import com.capstone.maphdev.triviapp.fragment.QuizFragment;
 import com.capstone.maphdev.triviapp.model.Question;
 import com.capstone.maphdev.triviapp.utils.NetworkUtils;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class QuizActivity extends AppCompatActivity implements QuizFragment.OnNextQuestionListener {
 
     private FirebaseAuth auth;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_quiz);
 
         auth = FirebaseAuth.getInstance();
 
@@ -32,17 +42,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // set fragment
-        CategoriesListFragment categoriesListFragment = new CategoriesListFragment();
+        QuizFragment quizFragment = new QuizFragment();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.categories_list, categoriesListFragment)
+                .replace(R.id.quiz_container, quizFragment)
                 .commit();
-        }
-
-    public void signOut(View view){
-        auth.signOut();
-        finish();
-        startActivity(new Intent(this, WelcomeActivity.class));
     }
- }
+
+    @Override
+    public void onNextQuestionClick() {
+        Log.v("TRY", "inside activity onclick");
+        QuizFragment quizFragment = new QuizFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.quiz_container, quizFragment)
+                .commit();
+    }
+}
