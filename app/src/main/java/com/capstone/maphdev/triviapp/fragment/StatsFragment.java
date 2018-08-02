@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.capstone.maphdev.triviapp.R;
+import com.capstone.maphdev.triviapp.activity.MainActivity;
 import com.capstone.maphdev.triviapp.model.UserData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static android.content.ContentValues.TAG;
 
@@ -35,17 +37,17 @@ public class StatsFragment extends Fragment {
 
     DatabaseReference thisUserRef;
 
-
     public StatsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_stats, container, false);
+
+        ButterKnife.bind(this, rootView);
 
         try {
             thisUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -63,10 +65,10 @@ public class StatsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserData userData = dataSnapshot.getValue(UserData.class);
-                nbrQuestionsAnsweredTextView.setText(userData.getNbQuestionsAnswered());
-                nbrCorrectAnswersTextView.setText(userData.getCorrectAnswers());
-                nbrIncorrectAnswersTextView.setText(userData.getIncorrectAnswers());
-                scoreTextView.setText(userData.getScore());
+                nbrQuestionsAnsweredTextView.setText(Integer.toString(userData.getNbQuestionsAnswered()));
+                nbrCorrectAnswersTextView.setText(Integer.toString(userData.getCorrectAnswers()));
+                nbrIncorrectAnswersTextView.setText(Integer.toString(userData.getIncorrectAnswers()));
+                scoreTextView.setText(Integer.toString(userData.getScore()));
             }
 
             @Override
@@ -76,5 +78,7 @@ public class StatsFragment extends Fragment {
             }
         });
     }
+
+
 
 }

@@ -29,6 +29,7 @@
                 android:layout_width="@dimen/logo_size_toolbar"
                 android:layout_height="@dimen/logo_size_toolbar"
                 android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="@dimen/activity_margin"
                 android:background="@drawable/ic_exit_app"
                 app:layout_collapseMode="parallax"
                 android:onClick="signOut"/>
