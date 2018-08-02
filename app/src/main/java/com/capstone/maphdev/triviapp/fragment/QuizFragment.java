@@ -46,7 +46,6 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     private int nbTry = 0;
 
     // Firebase
-    FirebaseAuth auth;
     DatabaseReference thisUserRef;
 
     // Required empty public constructor
@@ -54,7 +53,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // check if there is an internet connection
@@ -69,7 +68,11 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         ButterKnife.bind(this, rootView);
 
         // initialize a reference to the user's data in firebase
-        thisUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        try {
+            thisUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         // setOnClickListeners
         answer1Btn.setOnClickListener(this);
@@ -131,7 +134,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         incrementNbQuestionAnswered();
 
         if (nbTry == 0) {
-            if (btnClicked.getText().toString() == q.getCorrect_answer()) {
+            if (btnClicked.getText().toString().equals(q.getCorrect_answer())) {
                 btnClicked.setBackgroundColor(getResources().getColor(R.color.colorRight));
                 incrementCorrectAnswersAndScore();
             } else {
@@ -146,11 +149,11 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
     // from an answer available, gets the reference to the button that displays it
     private Button getButtonFromAnswer(String answer){
-        if (answer1Btn.getText().toString() == q.getCorrect_answer()){
+        if (answer1Btn.getText().toString().equals(q.getCorrect_answer())){
             return answer1Btn;
-        } else if (answer2Btn.getText().toString() == q.getCorrect_answer()){
+        } else if (answer2Btn.getText().toString().equals(q.getCorrect_answer())){
             return answer2Btn;
-        } else if (answer3Btn.getText().toString() == q.getCorrect_answer()){
+        } else if (answer3Btn.getText().toString().equals(q.getCorrect_answer())){
             return answer3Btn;
         } else {
             return answer4Btn;

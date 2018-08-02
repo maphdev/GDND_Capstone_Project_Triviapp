@@ -24,4 +24,15 @@
     <!-- Herror handling -->
     <string name="no_internet_connection">No internet connection!</string>
 
+    <!-- Stats Activity -->
+    <string name="statistics">Statistics</string>
+    <string name="nbr_question_answered">Questions answered</string>
+    <string name="nbr_correct_answers">Correct answers</string>
+    <string name="nbr_incorrect_answers">Incorrect answers</string>
+    <string name="Score">Score</string>
+
+    <!-- Other -->
+    <string name="simple_delimitor">Simple delimitor</string>
+    <string name="picture_category">Picture of a category</string>
+
 </resources>

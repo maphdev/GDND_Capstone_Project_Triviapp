@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".fragment.StatsFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_margin"
+            android:layout_marginEnd="@dimen/activity_margin"
+            android:layout_marginStart="@dimen/activity_margin"
+            android:layout_marginTop="@dimen/activity_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/light_background">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardElevation="@dimen/card_elevation">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/Big_Title_Category"
+                    android:text="@string/statistics"
+                    android:textAlignment="center"
+                    />
+
+            </android.support.v7.widget.CardView>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStats"
+                    android:text="@string/nbr_question_answered"
+                    android:layout_gravity="start"/>
+
+                <TextView
+                    android:id="@+id/nbr_questions_answered"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStats"
+                    android:gravity="end"/>
+            </FrameLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/cardview_dark_background"
+                android:contentDescription="@string/simple_delimitor"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStats"
+                    android:text="@string/nbr_correct_answers"
+                    android:layout_gravity="start"/>
+
+                <TextView
+                    android:id="@+id/nbr_correct_answers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStats"
+                    android:gravity="end"
+                    android:textColor="@color/colorRight"/>
+            </FrameLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/cardview_dark_background"
+                android:contentDescription="@string/simple_delimitor"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStats"
+                    android:text="@string/nbr_incorrect_answers"
+                    android:layout_gravity="start"/>
+
+                <TextView
+                    android:id="@+id/nbr_incorrect_answers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStats"
+                    android:gravity="end"
+                    android:textColor="@color/colorWrong"/>
+            </FrameLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/cardview_dark_background"
+                android:contentDescription="@string/simple_delimitor"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStats"
+                    android:text="@string/Score"
+                    android:layout_gravity="start"/>
+
+                <TextView
+                    android:id="@+id/score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CategoryStats"
+                    android:gravity="end"/>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

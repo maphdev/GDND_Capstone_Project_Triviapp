@@ -3,11 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="@dimen/activity_margin"
         android:layout_marginStart="@dimen/activity_margin"
         android:layout_marginTop="@dimen/activity_margin"
@@ -25,56 +27,57 @@
 
             <TextView
                 android:id="@+id/question"
+                style="@style/Title_Category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Title_Category"
+                android:textAlignment="center"
                 android:textSize="30sp"
-                android:textAlignment="center" />
+                android:background="@color/light_background"
+                android:padding="@dimen/element_big_margin" />
 
         </android.support.v7.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="@dimen/activity_margin">
+            android:layout_margin="@dimen/activity_margin"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/answer1"
+                style="@style/Button_App"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Button_App"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/answer2"
+                style="@style/Button_App"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Button_App"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/answer3"
+                style="@style/Button_App"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Button_App"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/answer4"
+                style="@style/Button_App"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Button_App"/>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
         <Button
-            android:padding="16dp"
-            android:paddingBottom="32dp"
             android:id="@+id/nextQuestion"
+            style="@style/Button_App"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Button_App"
+            android:background="@color/colorPrimary"
+            android:padding="16dp"
+            android:paddingBottom="32dp"
             android:text="@string/next_question"
-            android:visibility="gone"
-            android:background="@color/colorPrimary"/>
+            android:visibility="gone" />
     </LinearLayout>
-
 </ScrollView>

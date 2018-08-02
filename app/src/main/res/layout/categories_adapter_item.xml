@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/card_image_size"
             android:scaleType="centerCrop"
-            android:background="#666"/>
+            android:background="@color/light_background"
+            android:contentDescription="@string/picture_category"/>
 
         <TextView
             android:id="@+id/categories_adapter_item_textView"

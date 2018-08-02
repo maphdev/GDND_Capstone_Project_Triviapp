@@ -7,4 +7,5 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorRight">#5ac739</color>
     <color name="colorWrong">#ff0000</color>
+    <color name="light_background">#666</color>
 </resources>
