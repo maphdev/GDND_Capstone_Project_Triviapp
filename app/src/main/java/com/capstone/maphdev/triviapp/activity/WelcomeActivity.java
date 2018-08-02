@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import com.capstone.maphdev.triviapp.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class WelcomeActivity extends AppCompatActivity {
 

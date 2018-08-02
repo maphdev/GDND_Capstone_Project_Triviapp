@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.capstone.maphdev.triviapp.R;
 import com.capstone.maphdev.triviapp.activity.MainActivity;
 import com.capstone.maphdev.triviapp.model.UserData;
+import com.capstone.maphdev.triviapp.utils.DataUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,7 +51,7 @@ public class StatsFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         try {
-            thisUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            thisUserRef = DataUtils.getDatabase().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         } catch (Exception e){
             e.printStackTrace();
         }

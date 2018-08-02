@@ -2,6 +2,7 @@ package com.capstone.maphdev.triviapp.fragment;
 
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.capstone.maphdev.triviapp.R;
 import com.capstone.maphdev.triviapp.model.Question;
 import com.capstone.maphdev.triviapp.model.UserData;
+import com.capstone.maphdev.triviapp.utils.DataUtils;
+import com.capstone.maphdev.triviapp.utils.JsonUtils;
 import com.capstone.maphdev.triviapp.utils.NetworkUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -41,9 +46,11 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.answer3) Button answer3Btn;
     @BindView(R.id.answer4) Button answer4Btn;
     @BindView(R.id.nextQuestion) Button nextQuestionBtn;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
 
     private static Question q;
     private int nbTry = 0;
+    private int idCategory = 0;
 
     // Firebase
     DatabaseReference thisUserRef;
@@ -69,7 +76,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
         // initialize a reference to the user's data in firebase
         try {
-            thisUserRef = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            thisUserRef = DataUtils.getDatabase().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -82,33 +89,122 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         nextQuestionBtn.setOnClickListener(this);
 
         // Load a new question
-        int idCategory = getActivity().getIntent().getIntExtra(CategoriesListFragment.ID_CATEGORY, 9);
+        idCategory = getActivity().getIntent().getIntExtra(CategoriesListFragment.ID_CATEGORY, 9);
 
         q = null;
         if (idCategory == 0){
-            q = NetworkUtils.getRandomQuestion();
+            new GetRandomQuestionAsyncTask().execute();
         } else {
-            q = NetworkUtils.getCategoryQuestion(idCategory);
+            new GetCategoryQuestionAsyncTask().execute(idCategory);
         }
 
-        // we need to shuffle the answers so the correct answer is not always displayed as the same button
-        List<String> answers;
-        answers = Arrays.asList(q.getCorrect_answer(), q.getIncorrect_answers().get(0), q.getIncorrect_answers().get(1), q.getIncorrect_answers().get(2));
-        Collections.shuffle(answers);
-
-        // set button's text
-        question.setText(q.getQuestion());
-        answer1Btn.setText(answers.get(0));
-        answer2Btn.setText(answers.get(1));
-        answer3Btn.setText(answers.get(2));
-        answer4Btn.setText(answers.get(3));
-
         return rootView;
+    }
+
+    // AsyncTask in order to get a random question
+    public class GetRandomQuestionAsyncTask extends AsyncTask<Void, Void, List<Question>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected List<Question> doInBackground(Void... voids) {
+            List<Question> questionsList = new ArrayList<Question>();
+            try {
+                String response = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.buildUrlGeneralQuestions(1));
+                questionsList = JsonUtils.parseJson(response);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return questionsList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Question> questions) {
+            super.onPostExecute(questions);
+            progressBar.setVisibility(View.GONE);
+            question.setVisibility(View.VISIBLE);
+            answer1Btn.setVisibility(View.VISIBLE);
+            answer2Btn.setVisibility(View.VISIBLE);
+            answer3Btn.setVisibility(View.VISIBLE);
+            answer4Btn.setVisibility(View.VISIBLE);
+
+            q = questions.get(0);
+
+            List<String> answers;
+            answers = Arrays.asList(q.getCorrect_answer(), q.getIncorrect_answers().get(0), q.getIncorrect_answers().get(1), q.getIncorrect_answers().get(2));
+            Collections.shuffle(answers);
+
+            // set button's text
+            question.setText(q.getQuestion());
+            answer1Btn.setText(answers.get(0));
+            answer2Btn.setText(answers.get(1));
+            answer3Btn.setText(answers.get(2));
+            answer4Btn.setText(answers.get(3));
+        }
+    }
+
+    // AsyncTask in order to get a question by category
+    public class GetCategoryQuestionAsyncTask extends AsyncTask<Integer, Void, List<Question>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected List<Question> doInBackground(Integer... ints) {
+            Integer category = ints[0];
+            List<Question> questionsList = new ArrayList<Question>();
+            try {
+                String response = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.buildUrlbyCategoryAndAmount(category, 1));
+                questionsList = JsonUtils.parseJson(response);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return questionsList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Question> questions) {
+            super.onPostExecute(questions);
+            progressBar.setVisibility(View.GONE);
+            question.setVisibility(View.VISIBLE);
+            answer1Btn.setVisibility(View.VISIBLE);
+            answer2Btn.setVisibility(View.VISIBLE);
+            answer3Btn.setVisibility(View.VISIBLE);
+            answer4Btn.setVisibility(View.VISIBLE);
+
+            q = questions.get(0);
+
+            List<String> answers;
+            answers = Arrays.asList(q.getCorrect_answer(), q.getIncorrect_answers().get(0), q.getIncorrect_answers().get(1), q.getIncorrect_answers().get(2));
+            Collections.shuffle(answers);
+
+            // set button's text
+            question.setText(q.getQuestion());
+            answer1Btn.setText(answers.get(0));
+            answer2Btn.setText(answers.get(1));
+            answer3Btn.setText(answers.get(2));
+            answer4Btn.setText(answers.get(3));
+        }
     }
 
     // handle a click on an answer
     @Override
     public void onClick(View view) {
+        if (!NetworkUtils.isNetworkAvailable(getContext())){
+            // shorcut : onNextQuestionClick() will replace the actual quiz fragment by a new one
+            // and in the onCreateView methode of the quiz fragment, if the network is not available
+            // then it shows the "no internet connection" layout
+            onNextQuestionListener.onNextQuestionClick();
+            return;
+        }
         switch (view.getId()){
             case R.id.answer1:
                 giveResult(answer1Btn);
@@ -128,7 +224,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    // display the result, depending on the clicked button, and update the firebase database
+    // display the ui result changes, depending on the clicked button, and update the firebase database
     private void giveResult(Button btnClicked){
 
         incrementNbQuestionAnswered();
@@ -160,7 +256,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    // DATABASE handling
+    // DATABASE handling when answering a question
     public void incrementNbQuestionAnswered(){
         thisUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -210,7 +306,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    // So we can display a new question, by switching fragment
+    // So we can display a new question, by switching fragment in the QuizActivity
     OnNextQuestionListener onNextQuestionListener;
 
     public interface OnNextQuestionListener{
@@ -227,6 +323,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    // handle orientation changes
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
