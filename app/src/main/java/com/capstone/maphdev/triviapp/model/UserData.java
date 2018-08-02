@@ -10,7 +10,7 @@ public class UserData {
     // constructors
     public UserData(){}
 
-    public UserData(int nbQuestionsAnswered, int correctAnswers, int incorrectAnswer, int score) {
+    public UserData(int nbQuestionsAnswered, int correctAnswers, int incorrectAnswers, int score) {
         this.nbQuestionsAnswered = nbQuestionsAnswered;
         this.correctAnswers = correctAnswers;
         this.incorrectAnswers = incorrectAnswers;
@@ -22,31 +22,16 @@ public class UserData {
         return nbQuestionsAnswered;
     }
 
-    public void setNbQuestionsAnswered(int nbQuestionsAnswered) {
-        this.nbQuestionsAnswered = nbQuestionsAnswered;
-    }
-
     public int getCorrectAnswers() {
         return correctAnswers;
-    }
-
-    public void setCorrectAnswers(int correctAnswers) {
-        this.correctAnswers = correctAnswers;
     }
 
     public int getIncorrectAnswers() {
         return incorrectAnswers;
     }
 
-    public void setIncorrectAnswers(int incorrectAnswers) {
-        this.incorrectAnswers = incorrectAnswers;
-    }
-
     public int getScore() {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
 }

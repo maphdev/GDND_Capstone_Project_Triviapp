@@ -1,7 +1,9 @@
 package com.capstone.maphdev.triviapp.fragment;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +15,7 @@ import com.capstone.maphdev.triviapp.activity.QuizActivity;
 import com.capstone.maphdev.triviapp.adapter.CategoriesAdapter;
 import com.capstone.maphdev.triviapp.utils.DesignUtils;
 import com.capstone.maphdev.triviapp.utils.NetworkUtils;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -24,8 +27,6 @@ public class CategoriesListFragment extends Fragment implements CategoriesAdapte
     public final static String ID_CATEGORY = "idCategory";
     private View rootView;
 
-    private CategoriesAdapter categoriesAdapter;
-    private GridLayoutManager gridLayoutManager;
     @BindView(R.id.categories_adapter_recyclerView) RecyclerView recyclerView;
 
     public CategoriesListFragment() {
@@ -33,7 +34,7 @@ public class CategoriesListFragment extends Fragment implements CategoriesAdapte
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_categories_list, container, false);
@@ -46,8 +47,15 @@ public class CategoriesListFragment extends Fragment implements CategoriesAdapte
     }
 
     public void setAdapter() {
-        gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        categoriesAdapter = new CategoriesAdapter(this);
+        int spanCount;
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            spanCount = 2;
+        } else {
+            spanCount = 3;
+        }
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), spanCount);
+        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(this);
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);

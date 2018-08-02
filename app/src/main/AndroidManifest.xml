@@ -7,9 +7,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_triviapp"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_triviapp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.WelcomeActivity">
@@ -24,7 +24,10 @@
         <activity android:name=".activity.SignInActivity"
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.QuizActivity"></activity>
+        <activity
+            android:name=".activity.QuizActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

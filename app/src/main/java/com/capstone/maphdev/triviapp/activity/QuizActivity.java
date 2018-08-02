@@ -17,7 +17,7 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnNe
     @BindView(R.id.quiz_activity_toolbar) Toolbar toolbar;
 
     private FirebaseAuth auth;
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnNe
             });
         }
 
-        // set fragment
+
         QuizFragment quizFragment = new QuizFragment();
 
         fragmentManager = getSupportFragmentManager();

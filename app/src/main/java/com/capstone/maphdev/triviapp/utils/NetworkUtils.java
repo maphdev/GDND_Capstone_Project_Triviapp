@@ -4,17 +4,13 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
-import com.capstone.maphdev.triviapp.model.Question;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 public class NetworkUtils {
 
@@ -28,9 +24,6 @@ public class NetworkUtils {
     private final static String TYPE_PARAM = "multiple";
     private final static String ENCODING_QUERY = "encode";
     private final static String ENCODING_PARAM = "base64";
-
-    // LIST CATEGORIES
-    private final static String LIST_CATEGORIES = "https://opentdb.com/api_category.php";
 
     // get URL for "i" number of random questions
     public static URL buildUrlGeneralQuestions(int i) {
@@ -83,88 +76,6 @@ public class NetworkUtils {
             }
         } finally {
             urlConnection.disconnect();
-        }
-    }
-
-    // Get the list of recipes from the URL
-    public static Question getRandomQuestion() {
-        Question question = null;
-        AsyncTask<Void, Void, List<Question>> async = new GetRandomQuestionAsyncTask().execute();
-        try {
-            question = async.get().get(0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return question;
-    }
-
-    // Get the list of recipes from the URL
-    public static Question getCategoryQuestion(int category) {
-        Question question = null;
-        AsyncTask<Integer, Void, List<Question>> async = new GetCategoryQuestionAsyncTask().execute(category);
-        try {
-            question = async.get().get(0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return question;
-    }
-
-    // AsyncTask that get a random question
-    public static class GetRandomQuestionAsyncTask extends AsyncTask<Void, Void, List<Question>> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected List<Question> doInBackground(Void... voids) {
-            List<Question> questionsList = new ArrayList<Question>();
-            try {
-                String response = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.buildUrlGeneralQuestions(1));
-                questionsList = JsonUtils.parseJson(response);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return questionsList;
-        }
-
-        @Override
-        protected void onPostExecute(List<Question> questions) {
-            super.onPostExecute(questions);
-        }
-    }
-
-    // AsyncTask that get a question belonging to a particular category
-    public static class GetCategoryQuestionAsyncTask extends AsyncTask<Integer, Void, List<Question>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected List<Question> doInBackground(Integer... ints) {
-            Integer category = ints[0];
-            List<Question> questionsList = new ArrayList<Question>();
-            try {
-                String response = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.buildUrlbyCategoryAndAmount(category, 1));
-                questionsList = JsonUtils.parseJson(response);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return questionsList;
-        }
-
-        @Override
-        protected void onPostExecute(List<Question> questions) {
-            super.onPostExecute(questions);
         }
     }
 

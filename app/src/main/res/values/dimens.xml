@@ -2,14 +2,11 @@
 <resources>
     <!-- Activity generalities -->
     <dimen name="activity_margin">16dp</dimen>
-    <dimen name="element_more_little_margin">2dp</dimen>
-    <dimen name="element_little_margin">4dp</dimen>
     <dimen name="element_normal_margin">8dp</dimen>
     <dimen name="element_big_margin">16dp</dimen>
     <dimen name="text_big_title">32sp</dimen>
 
     <!-- Logo generalities -->
-    <dimen name="logo_size">100dp</dimen>
     <dimen name="logo_size_toolbar">30dp</dimen>
 
     <!-- CardView generalities -->
@@ -25,7 +22,6 @@
     <dimen name="card_elevation">4dp</dimen>
     <dimen name="card_corner_radius">2dp</dimen>
     <dimen name="card_image_size">150dp</dimen>
-    <dimen name="card_text_margins">20dp</dimen>
     <dimen name="list_side_margin">4dp</dimen>
 
 </resources>

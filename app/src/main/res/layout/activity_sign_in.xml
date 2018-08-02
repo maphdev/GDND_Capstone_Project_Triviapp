@@ -71,7 +71,6 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/sign_in_btn"
                     android:text="@string/sign_in"
                     style="@style/Button_App"
                     android:layout_weight="1"

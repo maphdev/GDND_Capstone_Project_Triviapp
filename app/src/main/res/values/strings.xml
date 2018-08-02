@@ -2,7 +2,6 @@
     <string name="app_name">Triviapp</string>
 
     <!-- Log In & Sign Up -->
-    <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="sign_up">Sign Up</string>
@@ -34,5 +33,6 @@
     <!-- Other -->
     <string name="simple_delimitor">Simple delimitor</string>
     <string name="picture_category">Picture of a category</string>
+    <string name="logo_of_the_app">Logo of the app</string>
 
 </resources>

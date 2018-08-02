@@ -35,18 +35,17 @@ public class JsonUtils {
         Question[] questionsTab = gson.fromJson(listJson, Question[].class);
 
         // transform the tab into a list and decoding base64 format to utf-8
-        List<Question> questionsList = new ArrayList<Question>();
-        for (int i = 0; i < questionsTab.length; i++){
+        List<Question> questionsList = new ArrayList<>();
+        for (Question q : questionsTab) {
 
-            Question q = questionsTab[i];
             q.setCategory(StringUtils.base64ToUTF8(q.getCategory()));
             q.setType(StringUtils.base64ToUTF8(q.getType()));
             q.setDifficulty(StringUtils.base64ToUTF8(q.getDifficulty()));
             q.setQuestion(StringUtils.base64ToUTF8(q.getQuestion()));
             q.setCorrect_answer(StringUtils.base64ToUTF8(q.getCorrect_answer()));
 
-            List<String> listIncorrectAnswer = new ArrayList<String>();
-            for (int j = 0; j < q.getIncorrect_answers().size(); j++){
+            List<String> listIncorrectAnswer = new ArrayList<>();
+            for (int j = 0; j < q.getIncorrect_answers().size(); j++) {
                 listIncorrectAnswer.add(StringUtils.base64ToUTF8(q.getIncorrect_answers().get(j)));
             }
 

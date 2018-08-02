@@ -11,14 +11,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.capstone.maphdev.triviapp.R;
-import com.capstone.maphdev.triviapp.activity.MainActivity;
 import com.capstone.maphdev.triviapp.model.UserData;
 import com.capstone.maphdev.triviapp.utils.DataUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
@@ -69,7 +67,7 @@ public class StatsFragment extends Fragment {
                 nbrQuestionsAnsweredTextView.setText(Integer.toString(userData.getNbQuestionsAnswered()));
                 nbrCorrectAnswersTextView.setText(Integer.toString(userData.getCorrectAnswers()));
                 nbrIncorrectAnswersTextView.setText(Integer.toString(userData.getIncorrectAnswers()));
-                scoreTextView.setText(Integer.toString(userData.getScore()));
+                scoreTextView.setText(Integer.toString(userData.getScore())+ " / " + Integer.toString(userData.getNbQuestionsAnswered()));
             }
 
             @Override

@@ -3,11 +3,8 @@ package com.capstone.maphdev.triviapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Question implements Parcelable{
 
@@ -20,7 +17,7 @@ public class Question implements Parcelable{
     private List<String> incorrect_answers;
 
     // categories' name
-    public static List<String> categoriesName = Arrays.asList(
+    public static final List<String> categoriesName = Arrays.asList(
             "Random",
             "General Knowledge",
             "Books",
@@ -47,16 +44,6 @@ public class Question implements Parcelable{
             "Japanese Anime & Manga",
             "Cartoon & Animations"
     );
-
-    // constructor
-    public Question(String category, String type, String difficulty, String question, String correct_answer, List<String> incorrect_answers) {
-        this.category = category;
-        this.type = type;
-        this.difficulty = difficulty;
-        this.question = question;
-        this.correct_answer = correct_answer;
-        this.incorrect_answers = incorrect_answers;
-    }
 
     // getters & setters
     public String getCategory() {

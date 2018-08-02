@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,14 +49,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
     private static Question q;
     private int nbTry = 0;
-    private int idCategory = 0;
 
     // Firebase
     DatabaseReference thisUserRef;
 
     // Required empty public constructor
     public QuizFragment() {}
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -89,7 +86,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         nextQuestionBtn.setOnClickListener(this);
 
         // Load a new question
-        idCategory = getActivity().getIntent().getIntExtra(CategoriesListFragment.ID_CATEGORY, 9);
+        int idCategory = getActivity().getIntent().getIntExtra(CategoriesListFragment.ID_CATEGORY, 9);
+        Log.v("CONFIG_CHANGE", "else");
 
         q = null;
         if (idCategory == 0){
@@ -99,6 +97,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         }
 
         return rootView;
+
     }
 
     // AsyncTask in order to get a random question
@@ -111,7 +110,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
         @Override
         protected List<Question> doInBackground(Void... voids) {
-            List<Question> questionsList = new ArrayList<Question>();
+            List<Question> questionsList = new ArrayList<>();
             try {
                 String response = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.buildUrlGeneralQuestions(1));
                 questionsList = JsonUtils.parseJson(response);
@@ -126,24 +125,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         protected void onPostExecute(List<Question> questions) {
             super.onPostExecute(questions);
             progressBar.setVisibility(View.GONE);
-            question.setVisibility(View.VISIBLE);
-            answer1Btn.setVisibility(View.VISIBLE);
-            answer2Btn.setVisibility(View.VISIBLE);
-            answer3Btn.setVisibility(View.VISIBLE);
-            answer4Btn.setVisibility(View.VISIBLE);
-
-            q = questions.get(0);
-
-            List<String> answers;
-            answers = Arrays.asList(q.getCorrect_answer(), q.getIncorrect_answers().get(0), q.getIncorrect_answers().get(1), q.getIncorrect_answers().get(2));
-            Collections.shuffle(answers);
-
-            // set button's text
-            question.setText(q.getQuestion());
-            answer1Btn.setText(answers.get(0));
-            answer2Btn.setText(answers.get(1));
-            answer3Btn.setText(answers.get(2));
-            answer4Btn.setText(answers.get(3));
+            onPostExecuteForAsyncTaskHandling(questions);
         }
     }
 
@@ -159,7 +141,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         @Override
         protected List<Question> doInBackground(Integer... ints) {
             Integer category = ints[0];
-            List<Question> questionsList = new ArrayList<Question>();
+            List<Question> questionsList = new ArrayList<>();
             try {
                 String response = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.buildUrlbyCategoryAndAmount(category, 1));
                 questionsList = JsonUtils.parseJson(response);
@@ -174,25 +156,29 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         protected void onPostExecute(List<Question> questions) {
             super.onPostExecute(questions);
             progressBar.setVisibility(View.GONE);
-            question.setVisibility(View.VISIBLE);
-            answer1Btn.setVisibility(View.VISIBLE);
-            answer2Btn.setVisibility(View.VISIBLE);
-            answer3Btn.setVisibility(View.VISIBLE);
-            answer4Btn.setVisibility(View.VISIBLE);
-
-            q = questions.get(0);
-
-            List<String> answers;
-            answers = Arrays.asList(q.getCorrect_answer(), q.getIncorrect_answers().get(0), q.getIncorrect_answers().get(1), q.getIncorrect_answers().get(2));
-            Collections.shuffle(answers);
-
-            // set button's text
-            question.setText(q.getQuestion());
-            answer1Btn.setText(answers.get(0));
-            answer2Btn.setText(answers.get(1));
-            answer3Btn.setText(answers.get(2));
-            answer4Btn.setText(answers.get(3));
+            onPostExecuteForAsyncTaskHandling(questions);
         }
+    }
+
+    // to avoid duplication of code in asynctasks
+    public void onPostExecuteForAsyncTaskHandling(List<Question> questions){
+        question.setVisibility(View.VISIBLE);
+        answer1Btn.setVisibility(View.VISIBLE);
+        answer2Btn.setVisibility(View.VISIBLE);
+        answer3Btn.setVisibility(View.VISIBLE);
+        answer4Btn.setVisibility(View.VISIBLE);
+
+        q = questions.get(0);
+
+        List<String> answers = Arrays.asList(q.getCorrect_answer(), q.getIncorrect_answers().get(0), q.getIncorrect_answers().get(1), q.getIncorrect_answers().get(2));
+        Collections.shuffle(answers);
+
+        // set button's text
+        question.setText(q.getQuestion());
+        answer1Btn.setText(answers.get(0));
+        answer2Btn.setText(answers.get(1));
+        answer3Btn.setText(answers.get(2));
+        answer4Btn.setText(answers.get(3));
     }
 
     // handle a click on an answer
@@ -235,7 +221,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 incrementCorrectAnswersAndScore();
             } else {
                 btnClicked.setBackgroundColor(getResources().getColor(R.color.colorWrong));
-                getButtonFromAnswer(q.getCorrect_answer()).setBackgroundColor(getResources().getColor(R.color.colorRight));
+                getButtonFromAnswer().setBackgroundColor(getResources().getColor(R.color.colorRight));
                 incrementIncorrectAnswers();
             }
             nbTry += 1;
@@ -243,8 +229,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         nextQuestionBtn.setVisibility(View.VISIBLE);
     }
 
-    // from an answer available, gets the reference to the button that displays it
-    private Button getButtonFromAnswer(String answer){
+    // gets the reference to the button that displays the correct answer
+    private Button getButtonFromAnswer(){
         if (answer1Btn.getText().toString().equals(q.getCorrect_answer())){
             return answer1Btn;
         } else if (answer2Btn.getText().toString().equals(q.getCorrect_answer())){
@@ -310,7 +296,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     OnNextQuestionListener onNextQuestionListener;
 
     public interface OnNextQuestionListener{
-        public void onNextQuestionClick();
+        void onNextQuestionClick();
     }
 
     @Override
@@ -321,12 +307,5 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         } catch (ClassCastException e){
             throw new ClassCastException(context.toString() + " must implement OnNextQuestionListener");
         }
-    }
-
-    // handle orientation changes
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
     }
 }

@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,47 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-
-    /*
-    private FirebaseAuth auth;
-    @BindView(R.id.categories_list) FrameLayout container;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        ButterKnife.bind(this);
-
-        // Firebase auth
-        auth = FirebaseAuth.getInstance();
-
-        // if the user is not logged in anymore, then redirection to the Welcome Activity
-        if (auth.getCurrentUser() == null){
-            finish();
-            startActivity(new Intent(this, WelcomeActivity.class));
-        }
-
-        // check if there is an internet connection
-        if (!NetworkUtils.isNetworkAvailable(getApplicationContext())){
-            DesignUtils.showSnackBar(container, getResources().getString(R.string.no_internet_connection), getApplicationContext());
-        }
-
-        // set fragment
-        CategoriesListFragment categoriesListFragment = new CategoriesListFragment();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.categories_list, categoriesListFragment)
-                .commit();
-        }
-
-    public void signOut(View view){
-        auth.signOut();
-        finish();
-        startActivity(new Intent(this, WelcomeActivity.class));
-    }
-    */
 
     private FirebaseAuth auth;
     @BindView(R.id.categories_list) FrameLayout container;
@@ -94,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public void setAdapter(int position){
         FragmentPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(position);
         viewPager.setOffscreenPageLimit(2);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
