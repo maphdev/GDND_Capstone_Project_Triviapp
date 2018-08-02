@@ -19,6 +19,7 @@ import com.capstone.maphdev.triviapp.model.UserData;
 import com.capstone.maphdev.triviapp.utils.DataUtils;
 import com.capstone.maphdev.triviapp.utils.JsonUtils;
 import com.capstone.maphdev.triviapp.utils.NetworkUtils;
+import com.capstone.maphdev.triviapp.widget.QuizWidgetProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -73,7 +74,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
         // initialize a reference to the user's data in firebase
         try {
-            thisUserRef = DataUtils.getDatabase().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            thisUserRef = DataUtils.getDatabase().getReference().child(DataUtils.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -87,7 +88,6 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
         // Load a new question
         int idCategory = getActivity().getIntent().getIntExtra(CategoriesListFragment.ID_CATEGORY, 9);
-        Log.v("CONFIG_CHANGE", "else");
 
         q = null;
         if (idCategory == 0){
@@ -248,12 +248,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserData userData = dataSnapshot.getValue(UserData.class);
-                thisUserRef.child("nbQuestionsAnswered").setValue(userData.getNbQuestionsAnswered()+1);
+                thisUserRef.child(DataUtils.NB_QUESTIONS_ANSWERED).setValue(userData.getNbQuestionsAnswered()+1);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG, "Error trying to get classified ad for update " +
+                Log.d(TAG, "Error trying to get data " +
                         ""+databaseError);
             }
         });
@@ -264,13 +264,14 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserData userData = dataSnapshot.getValue(UserData.class);
-                thisUserRef.child("correctAnswers").setValue(userData.getCorrectAnswers()+1);
-                thisUserRef.child("score").setValue(userData.getScore()+1);
+                thisUserRef.child(DataUtils.CORRECT_ANSWERS).setValue(userData.getCorrectAnswers()+1);
+                thisUserRef.child(DataUtils.SCORE).setValue(userData.getScore()+1);
+                QuizWidgetProvider.sendBroadCast(getContext(), QuizWidgetProvider.class);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG, "Error trying to get classified ad for update " +
+                Log.d(TAG, "Error trying to get data " +
                         ""+databaseError);
             }
         });
@@ -281,12 +282,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserData userData = dataSnapshot.getValue(UserData.class);
-                thisUserRef.child("incorrectAnswers").setValue(userData.getIncorrectAnswers()+1);
+                thisUserRef.child(DataUtils.INCORRECT_ANSWERS).setValue(userData.getIncorrectAnswers()+1);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG, "Error trying to get classified ad for update " +
+                Log.d(TAG, "Error trying to get data " +
                         ""+databaseError);
             }
         });

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import com.capstone.maphdev.triviapp.R;
 import com.capstone.maphdev.triviapp.utils.DesignUtils;
+import com.capstone.maphdev.triviapp.utils.NetworkUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -44,6 +45,11 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void signIn(final View view){
+        if (!NetworkUtils.isNetworkAvailable(this)){
+            DesignUtils.showSnackBar(view, getString(R.string.no_internet_connection), getApplicationContext());
+            return;
+        }
+
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
 
@@ -82,9 +88,8 @@ public class SignInActivity extends AppCompatActivity {
                             }
                         } else {
                             if (auth.getCurrentUser() != null){
-                                finish();
-
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                finish();
                             }
                         }
                     }

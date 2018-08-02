@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import com.capstone.maphdev.triviapp.R;
 import com.capstone.maphdev.triviapp.model.UserData;
+import com.capstone.maphdev.triviapp.utils.DataUtils;
 import com.capstone.maphdev.triviapp.utils.DesignUtils;
+import com.capstone.maphdev.triviapp.utils.NetworkUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -49,6 +51,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void signUp(final View view){
+        if (!NetworkUtils.isNetworkAvailable(this)){
+            DesignUtils.showSnackBar(view, getString(R.string.no_internet_connection), getApplicationContext());
+            return;
+        }
+
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
 
@@ -114,7 +121,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void createUserData(){
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference usersRef = rootRef.child("users");
+        DatabaseReference usersRef = rootRef.child(DataUtils.USERS);
         DatabaseReference userRef = usersRef.child(auth.getCurrentUser().getUid());
         userRef.setValue(new UserData());
     }

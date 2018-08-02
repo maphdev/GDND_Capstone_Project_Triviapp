@@ -49,7 +49,7 @@ public class StatsFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         try {
-            thisUserRef = DataUtils.getDatabase().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            thisUserRef = DataUtils.getDatabase().getReference().child(DataUtils.USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -60,22 +60,25 @@ public class StatsFragment extends Fragment {
     }
 
     public void populateViews(){
-        thisUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserData userData = dataSnapshot.getValue(UserData.class);
-                nbrQuestionsAnsweredTextView.setText(Integer.toString(userData.getNbQuestionsAnswered()));
-                nbrCorrectAnswersTextView.setText(Integer.toString(userData.getCorrectAnswers()));
-                nbrIncorrectAnswersTextView.setText(Integer.toString(userData.getIncorrectAnswers()));
-                scoreTextView.setText(Integer.toString(userData.getScore())+ " / " + Integer.toString(userData.getNbQuestionsAnswered()));
-            }
+        if (thisUserRef != null){
+            thisUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    UserData userData = dataSnapshot.getValue(UserData.class);
+                    nbrQuestionsAnsweredTextView.setText(Integer.toString(userData.getNbQuestionsAnswered()));
+                    nbrCorrectAnswersTextView.setText(Integer.toString(userData.getCorrectAnswers()));
+                    nbrIncorrectAnswersTextView.setText(Integer.toString(userData.getIncorrectAnswers()));
+                    scoreTextView.setText(Integer.toString(userData.getScore())+ " / " + Integer.toString(userData.getNbQuestionsAnswered()));
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG, "Error trying to get classified ad for update " +
-                        ""+databaseError);
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.d(TAG, "Error trying to get data " +
+                            ""+databaseError);
+                }
+            });
+        }
+
     }
 
 

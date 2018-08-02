@@ -15,6 +15,7 @@ import com.capstone.maphdev.triviapp.fragment.CategoriesListFragment;
 import com.capstone.maphdev.triviapp.fragment.StatsFragment;
 import com.capstone.maphdev.triviapp.utils.DesignUtils;
 import com.capstone.maphdev.triviapp.utils.NetworkUtils;
+import com.capstone.maphdev.triviapp.widget.QuizWidgetProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +47,11 @@ public class MainActivity extends AppCompatActivity {
             DesignUtils.showSnackBar(container, getResources().getString(R.string.no_internet_connection), getApplicationContext());
         }
 
+        // set Adapter for categories list
         setAdapter(1);
+
+        // if a widget is already on screen, it gets updated
+        QuizWidgetProvider.sendBroadCast(this, QuizWidgetProvider.class);
     }
 
     public void setAdapter(int position){
@@ -101,7 +106,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void signOut(View view){
         auth.signOut();
-        finish();
         startActivity(new Intent(this, WelcomeActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }

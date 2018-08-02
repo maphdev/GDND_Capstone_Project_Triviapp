@@ -34,5 +34,11 @@
     <string name="simple_delimitor">Simple delimitor</string>
     <string name="picture_category">Picture of a category</string>
     <string name="logo_of_the_app">Logo of the app</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <!-- Widget -->
+    <string name="widget_sign_in_sign_up">Sign in or Sign Up !</string>
+    <string name="widget_score">Score</string>
 
 </resources>
