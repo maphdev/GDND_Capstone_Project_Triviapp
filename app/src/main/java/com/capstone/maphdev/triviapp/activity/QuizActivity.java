@@ -16,7 +16,6 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnNe
 
     @BindView(R.id.quiz_activity_toolbar) Toolbar toolbar;
 
-    private FirebaseAuth auth;
     private FragmentManager fragmentManager;
 
     @Override
@@ -25,7 +24,7 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnNe
         setContentView(R.layout.activity_quiz);
 
         // Firebase auth
-        auth = FirebaseAuth.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
         // if the user is not logged in anymore, then redirection to the Welcome Activity
         if (auth.getCurrentUser() == null){

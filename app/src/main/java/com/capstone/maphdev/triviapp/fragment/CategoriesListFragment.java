@@ -46,7 +46,7 @@ public class CategoriesListFragment extends Fragment implements CategoriesAdapte
         return rootView;
     }
 
-    public void setAdapter() {
+    private void setAdapter() {
         int spanCount;
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             spanCount = 2;

@@ -11,6 +11,7 @@ import android.widget.RemoteViews;
 
 import com.capstone.maphdev.triviapp.R;
 import com.capstone.maphdev.triviapp.activity.MainActivity;
+import com.capstone.maphdev.triviapp.utils.NetworkUtils;
 import com.capstone.maphdev.triviapp.widget.RetrieveDataService;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -19,19 +20,30 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class QuizWidgetProvider extends AppWidgetProvider {
 
-    public static final String WIDGET_UPDATE = "com.capstone.maphdev.triviapp.widget";
+    private static final String WIDGET_UPDATE = "com.capstone.maphdev.triviapp.widget";
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId, Long score, Long nbQuestions) {
+    private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                        int appWidgetId, Long score, Long nbQuestions) {
 
         // Construct the RemoteViews object
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.quiz_widget);
 
-        if (score == null && nbQuestions == null){
+        // if there is no connection, show a "no connection" message
+        if (!NetworkUtils.isNetworkAvailable(context)){
             remoteViews.setViewVisibility(R.id.widget_sign_in_sign_out, View.VISIBLE);
+            remoteViews.setTextViewText(R.id.widget_sign_in_sign_out, context.getResources().getString(R.string.no_internet_connection));
             remoteViews.setViewVisibility(R.id.widget_title, View.INVISIBLE);
             remoteViews.setViewVisibility(R.id.widget_score, View.INVISIBLE);
-        } else {
+        }
+        // if no user is connected, ask the user to sign in or sign out
+        else if (score == null && nbQuestions == null){
+            remoteViews.setViewVisibility(R.id.widget_sign_in_sign_out, View.VISIBLE);
+            remoteViews.setTextViewText(R.id.widget_sign_in_sign_out, context.getResources().getString(R.string.widget_sign_in_sign_up));
+            remoteViews.setViewVisibility(R.id.widget_title, View.INVISIBLE);
+            remoteViews.setViewVisibility(R.id.widget_score, View.INVISIBLE);
+        }
+        // display the score
+        else {
             remoteViews.setTextViewText(R.id.widget_score, Long.toString(score) + " / " + Long.toString(nbQuestions));
             remoteViews.setViewVisibility(R.id.widget_sign_in_sign_out, View.INVISIBLE);
             remoteViews.setViewVisibility(R.id.widget_title, View.VISIBLE);

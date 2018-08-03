@@ -34,7 +34,7 @@ public class StatsFragment extends Fragment {
     @BindView(R.id.nbr_incorrect_answers) TextView nbrIncorrectAnswersTextView;
     @BindView(R.id.score) TextView scoreTextView;
 
-    DatabaseReference thisUserRef;
+    private DatabaseReference thisUserRef;
 
     public StatsFragment() {
         // Required empty public constructor
@@ -59,7 +59,7 @@ public class StatsFragment extends Fragment {
         return rootView;
     }
 
-    public void populateViews(){
+    private void populateViews(){
         if (thisUserRef != null){
             thisUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

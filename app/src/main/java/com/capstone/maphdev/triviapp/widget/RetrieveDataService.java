@@ -1,14 +1,18 @@
 package com.capstone.maphdev.triviapp.widget;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.capstone.maphdev.triviapp.R;
 import com.capstone.maphdev.triviapp.utils.DataUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,7 +24,12 @@ import static android.content.ContentValues.TAG;
 
 public class RetrieveDataService extends IntentService {
 
-    public static final String ACTION_RETRIEVE_DATA = "com.capstone.maphdev.triviapp.retrieve_data";
+    private static final String ACTION_RETRIEVE_DATA = "com.capstone.maphdev.triviapp.retrieve_data";
+
+    public static final String SHARED_PREFERENCE_CACHE = "shared_preference_cache";
+    public static final String SHARED_PREFERENCE_CACHE_SCORE = "shared_preference_cache_score";
+
+    public static final String SHARED_PREFERENCE_CACHE_NB_QUESTIONS = "shared_preference_cache_nb_questions";
 
     public RetrieveDataService(){
         super("RetrieveDataService");
@@ -67,10 +76,19 @@ public class RetrieveDataService extends IntentService {
         });
     }
 
-    public void sendUpdate(Long score, Long nbQuestions){
+    private void sendUpdate(Long score, Long nbQuestions){
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, QuizWidgetProvider.class));
 
+        setSharedPreference(score, nbQuestions);
         QuizWidgetProvider.updateAllWidgets(this, appWidgetManager, appWidgetIds, score, nbQuestions);
+    }
+
+    private void setSharedPreference(Long score, Long nbQuestions){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCE_CACHE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong(SHARED_PREFERENCE_CACHE_SCORE, score);
+        editor.putLong(SHARED_PREFERENCE_CACHE_NB_QUESTIONS, nbQuestions);
+        editor.apply();
     }
 }

@@ -52,7 +52,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     private int nbTry = 0;
 
     // Firebase
-    DatabaseReference thisUserRef;
+    private DatabaseReference thisUserRef;
 
     // Required empty public constructor
     public QuizFragment() {}
@@ -103,7 +103,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     }
 
     // AsyncTask in order to get a random question
-    public class GetRandomQuestionAsyncTask extends AsyncTask<Void, Void, List<Question>> {
+    class GetRandomQuestionAsyncTask extends AsyncTask<Void, Void, List<Question>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -132,7 +132,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     }
 
     // AsyncTask in order to get a question by category
-    public class GetCategoryQuestionAsyncTask extends AsyncTask<Integer, Void, List<Question>> {
+    class GetCategoryQuestionAsyncTask extends AsyncTask<Integer, Void, List<Question>> {
 
         @Override
         protected void onPreExecute() {
@@ -163,7 +163,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     }
 
     // to avoid duplication of code in asynctasks
-    public void onPostExecuteForAsyncTaskHandling(List<Question> questions){
+    private void onPostExecuteForAsyncTaskHandling(List<Question> questions){
         question.setVisibility(View.VISIBLE);
         answer1Btn.setVisibility(View.VISIBLE);
         answer2Btn.setVisibility(View.VISIBLE);
@@ -248,12 +248,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     }
 
     // DATABASE handling when answering a question
-    public void incrementNbQuestionAnswered(){
+    private void incrementNbQuestionAnswered(){
         thisUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserData userData = dataSnapshot.getValue(UserData.class);
                 thisUserRef.child(DataUtils.NB_QUESTIONS_ANSWERED).setValue(userData.getNbQuestionsAnswered()+1);
+                QuizWidgetProvider.sendBroadCast(getContext(), QuizWidgetProvider.class);
             }
 
             @Override
@@ -264,7 +265,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    public void incrementCorrectAnswersAndScore(){
+    private void incrementCorrectAnswersAndScore(){
         thisUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -282,7 +283,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    public void incrementIncorrectAnswers(){
+    private void incrementIncorrectAnswers(){
         thisUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -299,7 +300,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     }
 
     // So we can display a new question, by switching fragment in the QuizActivity
-    OnNextQuestionListener onNextQuestionListener;
+    private OnNextQuestionListener onNextQuestionListener;
 
     public interface OnNextQuestionListener{
         void onNextQuestionClick();

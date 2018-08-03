@@ -119,7 +119,7 @@ public class SignUpActivity extends AppCompatActivity {
         outState.putString(getString(R.string.ON_SAVE_INSTANCE_PASSWORD), inputPassword.getText().toString());
     }
 
-    public void createUserData(){
+    private void createUserData(){
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference usersRef = rootRef.child(DataUtils.USERS);
         DatabaseReference userRef = usersRef.child(auth.getCurrentUser().getUid());

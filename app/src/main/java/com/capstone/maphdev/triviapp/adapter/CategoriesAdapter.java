@@ -1,16 +1,10 @@
 package com.capstone.maphdev.triviapp.adapter;
 
-import android.animation.Animator;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +21,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     private static final int DIFFERENCE_POSITION_VS_RANDOM = 1;
 
     final private ListItemClickListener listItemClickListener;
-    private Context context;
+    private final Context context;
 
     public CategoriesAdapter(ListItemClickListener listItemClickListener, Context context){
         this.listItemClickListener = listItemClickListener;

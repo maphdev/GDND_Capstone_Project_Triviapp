@@ -50,11 +50,13 @@ public class MainActivity extends AppCompatActivity {
         // set Adapter for categories list
         setAdapter(1);
 
-        // if a widget is already on screen, it gets updated
-        QuizWidgetProvider.sendBroadCast(this, QuizWidgetProvider.class);
+        // if a widget is already on screen and there is an internet connection, it gets updated
+        if (NetworkUtils.isNetworkAvailable(getApplicationContext())){
+            QuizWidgetProvider.sendBroadCast(this, QuizWidgetProvider.class);
+        }
     }
 
-    public void setAdapter(int position){
+    private void setAdapter(int position){
         FragmentPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(position);
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
-        public MyPagerAdapter(FragmentManager fm) {
+        MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
