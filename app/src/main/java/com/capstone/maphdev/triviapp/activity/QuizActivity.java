@@ -39,7 +39,7 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnNe
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setTitle(R.string.back_to_categories);
+            //getSupportActionBar().setTitle(R.string.back_to_categories);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -1,12 +1,21 @@
 package com.capstone.maphdev.triviapp.adapter;
 
+import android.animation.Animator;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.capstone.maphdev.triviapp.R;
 import com.capstone.maphdev.triviapp.model.Question;
 import butterknife.BindView;
@@ -18,9 +27,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     private static final int DIFFERENCE_POSITION_VS_RANDOM = 1;
 
     final private ListItemClickListener listItemClickListener;
+    private Context context;
 
-    public CategoriesAdapter(ListItemClickListener listItemClickListener){
+    public CategoriesAdapter(ListItemClickListener listItemClickListener, Context context){
         this.listItemClickListener = listItemClickListener;
+        this.context = context;
     }
 
     @NonNull
@@ -33,9 +44,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        holder.itemImageView.setImageResource(R.drawable.triviapp);
+        Glide.with(context).load(Question.categoriesIdPicture.get(position)).asBitmap().override(1080, 600).into(holder.itemImageView);
         holder.itemTextView.setText(Question.categoriesName.get(position));
-
     }
 
     @Override

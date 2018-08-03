@@ -55,7 +55,7 @@ public class CategoriesListFragment extends Fragment implements CategoriesAdapte
         }
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), spanCount);
-        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(this);
+        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(this, getContext());
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);

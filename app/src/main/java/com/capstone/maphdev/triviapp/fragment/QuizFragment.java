@@ -96,6 +96,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             new GetCategoryQuestionAsyncTask().execute(idCategory);
         }
 
+
+
         return rootView;
 
     }
@@ -172,6 +174,9 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
         List<String> answers = Arrays.asList(q.getCorrect_answer(), q.getIncorrect_answers().get(0), q.getIncorrect_answers().get(1), q.getIncorrect_answers().get(2));
         Collections.shuffle(answers);
+
+        // set Title
+        getActivity().setTitle(q.getCategory());
 
         // set button's text
         question.setText(q.getQuestion());

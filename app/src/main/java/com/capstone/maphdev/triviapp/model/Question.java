@@ -3,6 +3,8 @@ package com.capstone.maphdev.triviapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.capstone.maphdev.triviapp.R;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,6 +46,37 @@ public class Question implements Parcelable{
             "Japanese Anime & Manga",
             "Cartoon & Animations"
     );
+
+
+    public static final List<Integer> categoriesIdPicture = Arrays.asList(
+            R.drawable.random,
+            R.drawable.generalknowledge,
+            R.drawable.books,
+            R.drawable.film,
+            R.drawable.music,
+            R.drawable.musicalstheatre,
+            R.drawable.television,
+            R.drawable.videogames,
+            R.drawable.boardgames,
+            R.drawable.sciencenature,
+            R.drawable.computers,
+            R.drawable.mathematics,
+            R.drawable.mythology,
+            R.drawable.sports,
+            R.drawable.geography,
+            R.drawable.history,
+            R.drawable.politics,
+            R.drawable.art,
+            R.drawable.celebrities,
+            R.drawable.animals,
+            R.drawable.vehicles,
+            R.drawable.comics,
+            R.drawable.gadgets,
+            R.drawable.japaneseanimemanga,
+            R.drawable.cartoonanimations
+    );
+
+
 
     // getters & setters
     public String getCategory() {
