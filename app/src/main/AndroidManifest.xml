@@ -31,7 +31,7 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
 
-        <receiver android:name=".widget.QuizWidgetProvider">
+        <receiver android:name=".QuizWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -40,8 +40,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/quiz_widget_info" />
         </receiver>
-
-        <service android:name=".widget.RetrieveDataService"/>
     </application>
 
 </manifest>

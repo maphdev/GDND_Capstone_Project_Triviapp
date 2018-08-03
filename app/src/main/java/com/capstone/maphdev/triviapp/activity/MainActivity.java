@@ -1,6 +1,8 @@
 package com.capstone.maphdev.triviapp.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,8 +17,9 @@ import com.capstone.maphdev.triviapp.fragment.CategoriesListFragment;
 import com.capstone.maphdev.triviapp.fragment.StatsFragment;
 import com.capstone.maphdev.triviapp.utils.DesignUtils;
 import com.capstone.maphdev.triviapp.utils.NetworkUtils;
-import com.capstone.maphdev.triviapp.widget.QuizWidgetProvider;
+import com.capstone.maphdev.triviapp.QuizWidgetProvider;
 import com.google.firebase.auth.FirebaseAuth;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -107,6 +110,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signOut(View view){
+        SharedPreferences sharedPreferences = getSharedPreferences("shared", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("shared_score", -1);
+        editor.putLong("shared_nb_questions", -1);
+        editor.apply();
+        QuizWidgetProvider.sendBroadCast(getApplicationContext(), QuizWidgetProvider.class);
         auth.signOut();
         startActivity(new Intent(this, WelcomeActivity.class));
         finish();

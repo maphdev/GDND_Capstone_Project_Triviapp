@@ -2,6 +2,7 @@ package com.capstone.maphdev.triviapp.fragment;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,7 +20,7 @@ import com.capstone.maphdev.triviapp.model.UserData;
 import com.capstone.maphdev.triviapp.utils.DataUtils;
 import com.capstone.maphdev.triviapp.utils.JsonUtils;
 import com.capstone.maphdev.triviapp.utils.NetworkUtils;
-import com.capstone.maphdev.triviapp.widget.QuizWidgetProvider;
+import com.capstone.maphdev.triviapp.QuizWidgetProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -254,7 +255,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserData userData = dataSnapshot.getValue(UserData.class);
                 thisUserRef.child(DataUtils.NB_QUESTIONS_ANSWERED).setValue(userData.getNbQuestionsAnswered()+1);
-                QuizWidgetProvider.sendBroadCast(getContext(), QuizWidgetProvider.class);
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putLong("shared_score", (Long)dataSnapshot.child(DataUtils.SCORE).getValue());
+                editor.putLong("shared_nb_questions", (Long)dataSnapshot.child(DataUtils.NB_QUESTIONS_ANSWERED).getValue());
+                editor.apply();
+                QuizWidgetProvider.sendBroadCast(getActivity().getApplicationContext(), QuizWidgetProvider.class);
             }
 
             @Override
@@ -272,7 +279,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 UserData userData = dataSnapshot.getValue(UserData.class);
                 thisUserRef.child(DataUtils.CORRECT_ANSWERS).setValue(userData.getCorrectAnswers()+1);
                 thisUserRef.child(DataUtils.SCORE).setValue(userData.getScore()+1);
-                QuizWidgetProvider.sendBroadCast(getContext(), QuizWidgetProvider.class);
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putLong("shared_score", (Long)dataSnapshot.child(DataUtils.SCORE).getValue());
+                editor.putLong("shared_nb_questions", (Long)dataSnapshot.child(DataUtils.NB_QUESTIONS_ANSWERED).getValue());
+                editor.apply();
+                QuizWidgetProvider.sendBroadCast(getActivity().getApplicationContext(), QuizWidgetProvider.class);
             }
 
             @Override

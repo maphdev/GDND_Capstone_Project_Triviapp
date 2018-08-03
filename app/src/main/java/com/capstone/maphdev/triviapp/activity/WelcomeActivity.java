@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import com.capstone.maphdev.triviapp.R;
-import com.capstone.maphdev.triviapp.widget.QuizWidgetProvider;
+import com.capstone.maphdev.triviapp.QuizWidgetProvider;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class WelcomeActivity extends AppCompatActivity {
