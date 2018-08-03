@@ -258,8 +258,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong("shared_score", (Long)dataSnapshot.child(DataUtils.SCORE).getValue());
-                editor.putLong("shared_nb_questions", (Long)dataSnapshot.child(DataUtils.NB_QUESTIONS_ANSWERED).getValue());
+                editor.putLong("shared_nb_questions", (Long)dataSnapshot.child(DataUtils.NB_QUESTIONS_ANSWERED).getValue()+1);
                 editor.apply();
                 QuizWidgetProvider.sendBroadCast(getActivity().getApplicationContext(), QuizWidgetProvider.class);
             }
@@ -282,8 +281,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putLong("shared_score", (Long)dataSnapshot.child(DataUtils.SCORE).getValue());
-                editor.putLong("shared_nb_questions", (Long)dataSnapshot.child(DataUtils.NB_QUESTIONS_ANSWERED).getValue());
+                editor.putLong("shared_score", (Long)dataSnapshot.child(DataUtils.SCORE).getValue()+1);
                 editor.apply();
                 QuizWidgetProvider.sendBroadCast(getActivity().getApplicationContext(), QuizWidgetProvider.class);
             }

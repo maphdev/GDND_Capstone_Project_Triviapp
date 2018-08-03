@@ -7,10 +7,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.capstone.maphdev.triviapp.activity.MainActivity;
+import com.capstone.maphdev.triviapp.activity.WelcomeActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Implementation of App Widget functionality.
@@ -29,6 +32,9 @@ public class QuizWidgetProvider extends AppWidgetProvider {
         Long score = sharedPreferences.getLong("shared_score", -1);
         Long nbQuestions = sharedPreferences.getLong("shared_nb_questions", -1);
 
+        Log.v("widget_score", "score "+ Long.toString(score));
+        Log.v("widget_score", "nbQuestion "+ Long.toString(nbQuestions));
+
         if (score == -1 || nbQuestions == -1){
             remoteViews.setViewVisibility(R.id.widget_sign_in_sign_out, View.VISIBLE);
             remoteViews.setTextViewText(R.id.widget_sign_in_sign_out, context.getResources().getString(R.string.widget_sign_in_sign_up));
@@ -41,11 +47,17 @@ public class QuizWidgetProvider extends AppWidgetProvider {
             remoteViews.setViewVisibility(R.id.widget_score, View.VISIBLE);
         }
 
-        // set a PendingIntent in order to start the MainActivity when a click occurs on the widget
-        Intent widgetIntent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, widgetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
-
+        if (FirebaseAuth.getInstance().getCurrentUser() == null){
+            // set a PendingIntent in order to start the MainActivity when a click occurs on the widget
+            Intent widgetIntent = new Intent(context, WelcomeActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, widgetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
+        } else {
+            // set a PendingIntent in order to start the MainActivity when a click occurs on the widget
+            Intent widgetIntent = new Intent(context, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, widgetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
+        }
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
