@@ -27,9 +27,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activity.MainActivity" />
         <activity
-            android:name=".activity.QuizActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait" />
+            android:name=".activity.QuizActivity" />
 
         <receiver android:name=".QuizWidgetProvider">
             <intent-filter>

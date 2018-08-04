@@ -3,6 +3,7 @@ package com.capstone.maphdev.triviapp.fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -80,6 +81,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
+        Log.v("QUIZ", "oncreateview");
+
         // setOnClickListeners
         answer1Btn.setOnClickListener(this);
         answer2Btn.setOnClickListener(this);
@@ -87,18 +90,45 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         answer4Btn.setOnClickListener(this);
         nextQuestionBtn.setOnClickListener(this);
 
-        // Load a new question
-        int idCategory = getActivity().getIntent().getIntExtra(CategoriesListFragment.ID_CATEGORY, 9);
+        if (savedInstanceState != null){
+            // get the question and details form savedInstanceState
+            q = (Question) savedInstanceState.get(ON_SAVE_INSTANCE_STATE_QUESTION);
+            // set question
+            question.setText(q.getQuestion());
+            // set background color for buttons
+            ArrayList<Integer> colorList = savedInstanceState.getIntegerArrayList(ON_SAVE_INSTANCE_STATE_COLOR);
+            answer1Btn.setBackgroundColor(colorList.get(0));
+            answer2Btn.setBackgroundColor(colorList.get(1));
+            answer3Btn.setBackgroundColor(colorList.get(2));
+            answer4Btn.setBackgroundColor(colorList.get(3));
+            answer1Btn.setVisibility(View.VISIBLE);
+            // set text for buttons
+            ArrayList<String> answersInOrderList = savedInstanceState.getStringArrayList(ON_SAVE_INSTANCE_STATE_ANSWERS_ORDER);
+            answer1Btn.setText(answersInOrderList.get(0));
+            answer2Btn.setText(answersInOrderList.get(1));
+            answer3Btn.setText(answersInOrderList.get(2));
+            answer4Btn.setText(answersInOrderList.get(3));
+            // set visibility for buttons
+            question.setVisibility(View.VISIBLE);
+            answer1Btn.setVisibility(View.VISIBLE);
+            answer2Btn.setVisibility(View.VISIBLE);
+            answer3Btn.setVisibility(View.VISIBLE);
+            answer4Btn.setVisibility(View.VISIBLE);
+            nbTry = savedInstanceState.getInt(ON_SAVE_INSTANCE_STATE_NB_TRY);
+            nextQuestionBtn.setVisibility(savedInstanceState.getInt(ON_SAVE_INSTANCE_STATE_NEXT_BUTTON_VISIBILITY));
 
-        q = null;
-        if (idCategory == 0){
-            new GetRandomQuestionAsyncTask().execute();
+
         } else {
-            new GetCategoryQuestionAsyncTask().execute(idCategory);
+            // Load a new question
+            int idCategory = getActivity().getIntent().getIntExtra(CategoriesListFragment.ID_CATEGORY, 9);
+
+            q = null;
+            if (idCategory == 0){
+                new GetRandomQuestionAsyncTask().execute();
+            } else {
+                new GetCategoryQuestionAsyncTask().execute(idCategory);
+            }
         }
-
-
-
         return rootView;
 
     }
@@ -177,7 +207,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         Collections.shuffle(answers);
 
         // set Title
-        getActivity().setTitle(q.getCategory());
+        //getActivity().setTitle(q.getCategory());
 
         // set button's text
         question.setText(q.getQuestion());
@@ -325,5 +355,35 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         } catch (ClassCastException e){
             throw new ClassCastException(context.toString() + " must implement OnNextQuestionListener");
         }
+    }
+
+    private static final String ON_SAVE_INSTANCE_STATE_QUESTION = "on_save_instance_state_question";
+    private static final String ON_SAVE_INSTANCE_STATE_COLOR = "on_save_instance_state_color";
+    private static final String ON_SAVE_INSTANCE_STATE_ANSWERS_ORDER = "on_save_instance_state_answers_order";
+    private static final String ON_SAVE_INSTANCE_STATE_NB_TRY = "on_save_instance_state_nb_try";
+    private static final String ON_SAVE_INSTANCE_STATE_NEXT_BUTTON_VISIBILITY = "on_save_instance_state_next_button_visibility";
+
+    // when orientation changes, same question
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(ON_SAVE_INSTANCE_STATE_QUESTION, q);
+        ArrayList<Integer> colorList = new ArrayList<Integer>() {{
+            add(((ColorDrawable)answer1Btn.getBackground()).getColor());
+            add(((ColorDrawable)answer2Btn.getBackground()).getColor());
+            add(((ColorDrawable)answer3Btn.getBackground()).getColor());
+            add(((ColorDrawable)answer4Btn.getBackground()).getColor());
+        }};
+        outState.putIntegerArrayList(ON_SAVE_INSTANCE_STATE_COLOR, colorList);
+        ArrayList<String> answerInOrderForDisplayList = new ArrayList<String>() {{
+            add(answer1Btn.getText().toString());
+            add(answer2Btn.getText().toString());
+            add(answer3Btn.getText().toString());
+            add(answer4Btn.getText().toString());
+
+        }};
+        outState.putStringArrayList(ON_SAVE_INSTANCE_STATE_ANSWERS_ORDER, answerInOrderForDisplayList);
+        outState.putInt(ON_SAVE_INSTANCE_STATE_NB_TRY, nbTry);
+        outState.putInt(ON_SAVE_INSTANCE_STATE_NEXT_BUTTON_VISIBILITY, nextQuestionBtn.getVisibility());
     }
 }

@@ -47,20 +47,19 @@ public class QuizActivity extends AppCompatActivity implements QuizFragment.OnNe
             });
         }
 
-
-        QuizFragment quizFragment = new QuizFragment();
-
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.quiz_container, quizFragment)
-                .commit();
+        if( savedInstanceState == null){
+            fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.quiz_container, new QuizFragment())
+                    .commit();
+        }
     }
 
     @Override
     public void onNextQuestionClick() {
-        QuizFragment quizFragment = new QuizFragment();
+        fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.quiz_container, quizFragment)
+                .replace(R.id.quiz_container, new QuizFragment())
                 .commit();
     }
 }
